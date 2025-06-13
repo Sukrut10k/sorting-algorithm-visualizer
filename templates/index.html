@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorting Algorithm Visualizer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Sorting Algorithm Visualizer</h1>
+            <p>Interactive tool for visualizing and comparing sorting algorithms with real-time performance analysis</p>
+        </div>
+
+        <div class="controls">
+            <div class="control-row">
+                <div class="control-group">
+                    <label for="algorithm">Algorithm:</label>
+                    <select id="algorithm">
+                        <option value="bubble">Bubble Sort</option>
+                        <option value="selection">Selection Sort</option>
+                        <option value="insertion">Insertion Sort</option>
+                        <option value="merge">Merge Sort</option>
+                        <option value="quick">Quick Sort</option>
+                        <option value="heap">Heap Sort</option>
+                        <option value="radix">Radix Sort</option>
+                        <option value="counting">Counting Sort</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label for="arraySize">Array Size:</label>
+                    <input type="range" id="arraySize" min="10" max="200" value="50">
+                    <span id="arraySizeValue">50</span>
+                </div>
+                
+                <div class="control-group">
+                    <label for="arrayOrder">Array Order:</label>
+                    <select id="arrayOrder">
+                        <option value="random">Random</option>
+                        <option value="sorted">Sorted</option>
+                        <option value="reverse">Reverse Sorted</option>
+                        <option value="nearly">Nearly Sorted</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label for="speed">Speed:</label>
+                    <select id="speed">
+                        <option value="50">Slow</option>
+                        <option value="100" selected>Medium</option>
+                        <option value="200">Fast</option>
+                        <option value="500">Very Fast</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="control-row">
+                <button id="generateArray" class="btn-primary">Generate New Array</button>
+                <button id="startSort" class="btn-success">Start Sorting</button>
+                <button id="stopSort" class="btn-danger">Stop</button>
+                <button id="resetArray" class="btn-secondary">Reset</button>
+                <button id="compareAlgorithms" class="btn-info">Compare All</button>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <span class="progress-text" id="progressText">Ready</span>
+            </div>
+        </div>
+
+        <div class="visualization">
+            <div class="array-container" id="arrayContainer">
+                <!-- Array bars will be generated here -->
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value" id="comparisons">0</div>
+                    <div class="stat-label">Comparisons</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="swaps">0</div>
+                    <div class="stat-label">Swaps</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="timeElapsed">0ms</div>
+                    <div class="stat-label">Time Elapsed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="arrayAccesses">0</div>
+                    <div class="stat-label">Array Accesses</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="accuracy">--</div>
+                    <div class="stat-label">Accuracy %</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="algorithm-info">
+            <div class="complexity-header">
+                <h3>Current Algorithm Analysis</h3>
+                <div class="complexity-info" id="complexityInfo">
+                    Select an algorithm to see complexity analysis
+                </div>
+            </div>
+            
+            <div class="charts-container">
+                <div class="chart-section">
+                    <h4>Performance Comparison</h4>
+                    <canvas id="comparisonChart" width="400" height="200"></canvas>
+                </div>
+                
+                <div class="chart-section">
+                    <h4>Real-time Complexity Analysis</h4>
+                    <canvas id="complexityChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="reference-table">
+            <h3>Algorithm Complexity Reference</h3>
+            <div class="table-container">
+                <table class="complexity-table">
+                    <thead>
+                        <tr>
+                            <th>Algorithm</th>
+                            <th>Best Case</th>
+                            <th>Average Case</th>
+                            <th>Worst Case</th>
+                            <th>Space</th>
+                            <th>Stable</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-algorithm="bubble">
+                            <td><strong>Bubble Sort</strong></td>
+                            <td>O(n)</td>
+                            <td>O(n²)</td>
+                            <td>O(n²)</td>
+                            <td>O(1)</td>
+                            <td>✓</td>
+                        </tr>
+                        <tr data-algorithm="selection">
+                            <td><strong>Selection Sort</strong></td>
+                            <td>O(n²)</td>
+                            <td>O(n²)</td>
+                            <td>O(n²)</td>
+                            <td>O(1)</td>
+                            <td>✗</td>
+                        </tr>
+                        <tr data-algorithm="insertion">
+                            <td><strong>Insertion Sort</strong></td>
+                            <td>O(n)</td>
+                            <td>O(n²)</td>
+                            <td>O(n²)</td>
+                            <td>O(1)</td>
+                            <td>✓</td>
+                        </tr>
+                        <tr data-algorithm="merge">
+                            <td><strong>Merge Sort</strong></td>
+                            <td>O(n log n)</td>
+                            <td>O(n log n)</td>
+                            <td>O(n log n)</td>
+                            <td>O(n)</td>
+                            <td>✓</td>
+                        </tr>
+                        <tr data-algorithm="quick">
+                            <td><strong>Quick Sort</strong></td>
+                            <td>O(n log n)</td>
+                            <td>O(n log n)</td>
+                            <td>O(n²)</td>
+                            <td>O(log n)</td>
+                            <td>✗</td>
+                        </tr>
+                        <tr data-algorithm="heap">
+                            <td><strong>Heap Sort</strong></td>
+                            <td>O(n log n)</td>
+                            <td>O(n log n)</td>
+                            <td>O(n log n)</td>
+                            <td>O(1)</td>
+                            <td>✗</td>
+                        </tr>
+                        <tr data-algorithm="radix">
+                            <td><strong>Radix Sort</strong></td>
+                            <td>O(nk)</td>
+                            <td>O(nk)</td>
+                            <td>O(nk)</td>
+                            <td>O(n+k)</td>
+                            <td>✓</td>
+                        </tr>
+                        <tr data-algorithm="counting">
+                            <td><strong>Counting Sort</strong></td>
+                            <td>O(n+k)</td>
+                            <td>O(n+k)</td>
+                            <td>O(n+k)</td>
+                            <td>O(k)</td>
+                            <td>✓</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/visualizer.js') }}"></script>
+</body>
+</html>
