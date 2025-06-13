@@ -133,12 +133,7 @@ Contributions are welcome! Please follow these steps:
 4. Push to the branch (`git push origin feature/NewFeature`)
 5. Open a Pull Request
 
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
 ## Acknowledgments
 
-- Inspired by classic algorithm visualization tools and Tech With Tim's YouTube tutorials
-- Flask community for excellent documentation
+- Inspired by Tech With Tim's YouTube tutorials
 ```
