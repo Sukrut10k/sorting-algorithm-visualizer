@@ -136,5 +136,19 @@ Contributions are welcome! Please follow these steps:
 ## Acknowledgments
 
 - Inspired by Tech With Tim's YouTube tutorials
+
+##  Author
+
+**Sukrut Kulkarni**
+- Email: k.sukrut1010@gmail.com
+
+## Support
+
+If you encounter any issues or have questions:
+
+1. **Open an Issue** on GitHub
+2. **Contact**: k.sukrut1010@gmail.com
+
+---
 ```
 **⭐ Star this repository if you find it helpful!**
