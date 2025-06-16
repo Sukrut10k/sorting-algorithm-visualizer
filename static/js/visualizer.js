@@ -108,7 +108,6 @@ class SortingVisualizer {
                     [this.array[idx1], this.array[idx2]] = [this.array[idx2], this.array[idx1]];
                 }
                 break;
-            // 'random' is default - no additional processing needed
         }
         
         this.renderArray();
@@ -187,7 +186,7 @@ class SortingVisualizer {
             }
             
             try {
-                // Since we don't have the backend API, we'll simulate the sorting locally
+                // sorting locally no API
                 const localResults = await this.runLocalSort(testArray, algorithm);
                 results[algorithm] = localResults;
             } catch (error) {
@@ -261,7 +260,6 @@ class SortingVisualizer {
                 }
                 break;
             default:
-                // For other algorithms, use JavaScript's built-in sort and estimate stats
                 testArray.sort((a, b) => {
                     comparisons++;
                     return a - b;
@@ -433,7 +431,7 @@ class SortingVisualizer {
                 const scaleFactor = this.getScaleFactor(algorithm, size, currentSize);
                 actualData.push(baseOps * scaleFactor);
             } else {
-                actualData.push(theoretical * (0.8 + Math.random() * 0.4)); // Add some variation
+                actualData.push(theoretical * (0.8 + Math.random() * 0.4)); 
             }
         });
         
@@ -465,7 +463,7 @@ class SortingVisualizer {
     }
 
     calculateTheoreticalComplexity(algorithm, n) {
-        // Simplified theoretical complexity calculations
+        // theoretical complexity calculations
         const complexities = {
             'bubble': Math.pow(n, 2),
             'selection': Math.pow(n, 2),
@@ -522,7 +520,7 @@ class SortingVisualizer {
         // Calculate accuracy based on how close actual operations are to theoretical
         this.accuracy = Math.max(0, Math.min(100, 100 - Math.abs(actual - theoretical) / theoretical * 100));
         
-        // Update accuracy display
+        // Accuracy display
         if (this.accuracyEl) {
             this.accuracyEl.textContent = `${this.accuracy.toFixed(1)}%`;
         }
@@ -929,8 +927,6 @@ class SortingVisualizer {
         
         this.comparisonChart.update();
     }
-
-    // Fix the complexity chart to actually show data
     updateComplexityChart() {
         if (!this.complexityChart) return;
         
@@ -964,14 +960,13 @@ class SortingVisualizer {
         this.complexityChart.update();
     }
 
-    // Fix accuracy calculation
+    // Accuracy calculation
     calculateAccuracy(algorithm) {
         const n = this.array.length;
         const actualOps = this.comparisons + this.swaps;
         const theoreticalOps = this.calculateTheoreticalComplexity(algorithm, n);
         
         // Calculate accuracy based on how close actual operations are to theoretical
-        // Use a more forgiving formula for accuracy
         if (theoreticalOps === 0) {
             this.accuracy = 100;
         } else {
@@ -989,13 +984,12 @@ class SortingVisualizer {
         // Ensure accuracy is between 0 and 100
         this.accuracy = Math.max(0, Math.min(100, this.accuracy));
         
-        // Update accuracy display
         if (this.accuracyEl) {
             this.accuracyEl.textContent = `${this.accuracy.toFixed(1)}%`;
         }
     }
 
-    // Enhanced theoretical complexity calculation
+    // Theoretical complexity calculation
     calculateTheoreticalComplexity(algorithm, n) {
         const arrayOrder = this.arrayOrderSelect ? this.arrayOrderSelect.value : 'random';
         
@@ -1022,7 +1016,7 @@ class SortingVisualizer {
         }
     }
 
-    // Enhanced updateStats method
+    // UpdateStats method
     updateStats() {
         if (this.comparisonsEl) this.comparisonsEl.textContent = this.comparisons;
         if (this.swapsEl) this.swapsEl.textContent = this.swaps;
